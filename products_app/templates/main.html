@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Strona główna
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href='/products'>Strona główna</a>
+            </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Kategorie<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Swetry</a></li>
+                        <li><a href="#">Spodnie</a></li>
+                        <li><a href="#">Spódnice</a></li>
+                        <li><a href="#">T-shirty</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a hred ="#"><span class="glyphicon glyphicon-user"></span>Zalogowany : {{ user.get_username }}</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Wyloguj</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="row text-center text-lg-left">
+        {% for product in products %}
+            <div class="row">
+                <div class="col-sm-4">
+                    <img src="{{ product.image.url }}" class="img-responsive"/>
+                    <p><a href="/product/{{ product.id }}/"> {{ product.name }}</a></p>
+                    <div>
+                    <strong class="like_count">{{ product.quantity_of_likes }}</strong>
+
+                    <button {% if product.like_dislike_user %}disabled{% endif %} data-prod="{{ product.id }}"
+                            class="likes btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        Like
+                    </button>
+
+                    <strong class="dislike_count">{{ product.quantity_of_dislikes }}</strong>
+
+                    <button {% if product.like_dislike_user == False %}disabled{% endif %} data-prod="{{ product.id }}"
+                            class="dislikes btn btn-danger" type="button">
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        Dislike
+                    </button>
+                    </div>
+                    <hr>
+                </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+

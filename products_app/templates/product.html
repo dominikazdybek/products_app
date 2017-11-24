@@ -1,0 +1,58 @@
+{%  extends "base.html"  %}
+
+{%  block content %}
+       <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href='/products'>Strona główna</a>
+            </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Kategorie<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Swetry</a></li>
+                        <li><a href="#">Spodnie</a></li>
+                        <li><a href="#">Spódnice</a></li>
+                        <li><a href="#">T-shirty</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a hred ="#"><span class="glyphicon glyphicon-user"></span>Zalogowany : {{ user.get_username }}</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Wyloguj</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row content">
+            <div class ="col-sm-6">
+                <h1>{{ product.name }}</h1>
+                <img class="img-responsive" src="{{ product.image.url }}"/><br>
+                <div class="description">Opis : {{ product.description }}</div>
+            </div>
+            <div class="col-sm-6">
+            <br>
+        <h4>Komentarze:</h4><hr>
+                <div class="row">
+        <div class="col-sm-12">
+        {% for comment in comments %}
+            <div>{{ comment.content }}
+                <p> {{ comment.author }},<small>  {{ comment.date }}</small></p><hr>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="new">
+        </div>
+        <textarea id="comment-input" rows="4" cols="70" placeholder="Comment..."></textarea><br><br>
+         <button data-prod="{{ product.id }}" id="comment"
+                class="btn btn-primary" type="button">
+            <span class="glyphicon glyphicon-comment"></span>
+           Add comment
+        </button>
+        </div>
+            </div>
+    </div>
+    </div>
+{% endblock %}

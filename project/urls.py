@@ -15,7 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from products_app.views import (UserLoginView, RegisterView, LogoutView, MainView, LikeProduct, DislikeProduct, ProductView, ProductCommentView)
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^user_login', UserLoginView.as_view(), name="user_login"),
+    url(r'^register', RegisterView.as_view(), name='register'),
+    url(r'^logout', LogoutView.as_view(), name="logout"),
+    url(r'^products$', MainView.as_view(), name="main"),
+    url(r'^products/like/(?P<my_id>(\d)+)/$', LikeProduct.as_view(), name='like_product'),
+    url(r'^products/dislike/(?P<my_id>(\d)+)/$', DislikeProduct.as_view(), name='dislike_product'),
+    url(r'^product/(?P<my_id>(\d)+)/$', ProductView.as_view(), name="product"),
+    url(r'^product/(?P<my_id>(\d)+)/comments/$', ProductCommentView.as_view(), name='product_comment')
 ]
+
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

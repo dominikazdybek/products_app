@@ -1,0 +1,53 @@
+.wrapper {
+    /*border: 1px solid black;*/
+    height: 600px;
+    width: 33%;
+}
+
+.img-responsive {
+    display: inline-block;
+    height: 400px;
+    text-align:center;
+}
+
+.my_form {
+    width: 40%;
+    margin: 0 auto;
+    float: none;
+
+}
+
+.foot {
+    background-color: #E6C4B3;
+    /*background-color: #f2f2f2;*/
+    padding: 25px;
+    color: 	#696969;
+}
+
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+    background-color: #E6C4B3;
+    /*border-color: #822B2B;*/
+}
+
+.myy {
+    display: flex;
+    justify-content:center;
+}
+
+.description {
+  width: 90%;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+    border-color: #D17E75;
+}
+
+body {
+    font-family: "Ubuntu", Helvetica, Arial, sans-serif!important;
+}
+
+a {
+    color: grey;
+}
