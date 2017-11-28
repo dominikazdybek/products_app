@@ -16,12 +16,39 @@
     <link rel='stylesheet' type='text/css' href='{% static "main.css" %}'>
     </head>
     <body>
-        {% block content %}
+             <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href='/products'>Strona główna</a>
+            </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Kategorie<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/category/sweter/">Swetry</a></li>
+                        <li><a href="/category/spodnie">Spodnie</a></li>
+                        <li><a href="/category/spódnica">Spódnice</a></li>
+                        <li><a href="/category/t-shirt">T-shirty</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a hred ="#"><span class="glyphicon glyphicon-user">&nbsp;
+                </span>Zalogowany : {{ user.get_username }}</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out">&nbsp;
+                </span>Wyloguj</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <br>
+             {% block content %}
         {% endblock %}
         {% block footer %}
             <br>
             <footer class="container-fluid text-center foot">
-                <p>(c)Dominika, 2017</p>
+                <p>© copyright by Dominika, 2017</p>
             </footer>
         {% endblock %}
     </body>

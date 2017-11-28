@@ -1,12 +1,13 @@
 from .forms import LoginForm, RegisterForm, CommentForm
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.views import View
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from .models import Product, LikeDislike, Comment
 from django.shortcuts import render_to_response, render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import serializers
 
 
 # Create your views here.
@@ -100,7 +101,13 @@ class ProductView(View):
         user = request.user
         form = CommentForm()
         product = Product.objects.get(pk=my_id)
+        like_dislike_user = LikeDislike.objects.filter(author=request.user)
         comments = Comment.objects.filter(product=product)
+        user = request.user
+        like_dislike = product.likedislike_set.filter(author=user).last()
+        if like_dislike is not None:
+            product.like_dislike_user = like_dislike.liked
+
         return render_to_response('product.html', {'product': product,
                                                    'comments': comments,
                                                    'user': user,
@@ -116,7 +123,24 @@ class ProductCommentView(View):
         u = request.user
         if comment:
             # content = form.cleaned_data['content']
-            Comment.objects.create(content=comment, author=u, product=p)
-            # return render(request, "product.html", {"form": form})
-            print("zapisano")
-        return HttpResponse("comment added")
+            new_comment = Comment.objects.create(content=comment, author=u, product=p)
+            return JsonResponse({
+                'author': new_comment.author.username,
+                'date': new_comment.date,
+                'comment': str(new_comment.content.decode('utf-8'))
+            })
+        return HttpResponse(status=400)
+
+
+class CategoryView(View):
+
+    def get(self,request,  name):
+        products = Product.objects.filter(name=name)
+        user = request.user
+        like_dislike_user = LikeDislike.objects.filter(author=request.user)
+        for product in products:
+            like_dislike = product.likedislike_set.filter(author=user).last()
+            if like_dislike is not None:
+                product.like_dislike_user = like_dislike.liked
+        return render_to_response('category.html', {'products': products,
+                                                    'user':user})

@@ -1,16 +1,16 @@
 function getCookie(name) {
-var cookieValue = null;
-if (document.cookie && document.cookie != '') {
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = jQuery.trim(cookies[i]);
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
     }
-}
     return cookieValue;
 }
 var csrftoken = getCookie('csrftoken');
@@ -19,7 +19,7 @@ console.log(csrftoken);
 //Ajax call
 function csrfSafeMethod(method) {
 // these HTTP methods do not require CSRF protection
-return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
     crossDomain: false, // obviates need for sameOrigin test
@@ -79,17 +79,31 @@ $('.dislikes').click(function () {
 
 
 $('#comment').click(function(event) {
-  event.preventDefault();
+    event.preventDefault();
     // pobierz text komentarza
     var id = $(this).attr("data-prod");
     var comment = $('#comment-input').val();
     // wyczysc input
-    $('#comment-input').val('');
+    // $('#comment-input').val('');
     // umiec comentarz w nowym divie
-    $('.new').text(comment);
+
     // wyslij komentarz do bazy danych
     $.post(
-      '/product/' + id + '/comments/',
-      comment
-    );
+        '/product/' + id + '/comments/',
+        comment
+    ).done(function (response) {
+        console.log(response);
+        var parsedDate = new Date(response.date);
+        var date = parsedDate.getUTCDate() + '/' + (parsedDate.getMonth() + 1) + '/' + parsedDate.getFullYear();
+        var time = parsedDate.getHours() + ':' + parsedDate.getMinutes();
+        newCommentDiv = $('.new');
+        $('<div>' + response.comment +
+            '<button class="btn btn-default" type="button" style="float: right">' +
+            '<span class="glyphicon glyphicon-trash"></span><small>delete</small>' +
+            '</button><p>' +
+            response.author +
+            ', <small>' +
+            date + ' ' + time +
+            '</small></p></div><hr>').insertBefore(newCommentDiv)
+    });
 });

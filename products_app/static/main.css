@@ -8,6 +8,7 @@
     display: inline-block;
     height: 400px;
     text-align:center;
+
 }
 
 .my_form {
@@ -50,4 +51,9 @@ body {
 
 a {
     color: grey;
+}
+
+
+.delete {
+    float: right;
 }
