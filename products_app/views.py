@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from .models import Product, LikeDislike, Comment
 from django.shortcuts import render_to_response, render
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core import serializers
 
 
@@ -117,7 +117,6 @@ class ProductView(View):
 class ProductCommentView(View):
 
     def post(self, request, my_id):
-        # form = CommentForm(request.POST)
         p = Product.objects.get(pk=my_id)
         comment = request.body
         u = request.user
@@ -127,9 +126,11 @@ class ProductCommentView(View):
             return JsonResponse({
                 'author': new_comment.author.username,
                 'date': new_comment.date,
-                'comment': str(new_comment.content.decode('utf-8'))
+                'comment': str(new_comment.content.decode('utf-8')),
+                'id': new_comment.id
             })
-        return HttpResponse(status=400)
+
+
 
 
 class CategoryView(View):
@@ -144,3 +145,11 @@ class CategoryView(View):
                 product.like_dislike_user = like_dislike.liked
         return render_to_response('category.html', {'products': products,
                                                     'user':user})
+
+
+class DeleteCommentView(View):
+
+    def delete(self, request, comment_id):
+        comment = Comment.objects.get(pk=comment_id)
+        comment.delete()
+        return HttpResponse(status=204)

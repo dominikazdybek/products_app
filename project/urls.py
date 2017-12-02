@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from products_app.views import (UserLoginView, RegisterView, LogoutView, MainView, LikeProduct, DislikeProduct,
-                                ProductView, ProductCommentView, CategoryView)
+                                ProductView, ProductCommentView, CategoryView, DeleteCommentView)
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -31,7 +31,8 @@ urlpatterns = [
     url(r'^products/dislike/(?P<my_id>(\d)+)/$', DislikeProduct.as_view(), name='dislike_product'),
     url(r'^product/(?P<my_id>(\d)+)/$', ProductView.as_view(), name="product"),
     url(r'^product/(?P<my_id>(\d)+)/comments/$', ProductCommentView.as_view(), name='product_comment'),
-    url(r'^category/(?P<name>([-A-Za-ząćęłńóśźżĄĘŁŃÓŚŹŻ])+)/', CategoryView.as_view(), name='category')
+    url(r'^category/(?P<name>([-A-Za-ząćęłńóśźżĄĘŁŃÓŚŹŻ])+)/', CategoryView.as_view(), name='category'),
+    url(r'^comments/(?P<comment_id>(\d)+)$', DeleteCommentView.as_view(), name='delete_comment'),
 ]
 
 if settings.DEBUG is True:

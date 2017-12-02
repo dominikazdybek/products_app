@@ -79,8 +79,10 @@ $('.dislikes').click(function () {
 
 
 $('#comment').click(function(event) {
+
     event.preventDefault();
     // pobierz text komentarza
+    console.log(this);
     var id = $(this).attr("data-prod");
     var comment = $('#comment-input').val();
     // wyczysc input
@@ -98,12 +100,28 @@ $('#comment').click(function(event) {
         var time = parsedDate.getHours() + ':' + parsedDate.getMinutes();
         newCommentDiv = $('.new');
         $('<div>' + response.comment +
-            '<button class="btn btn-default" type="button" style="float: right">' +
-            '<span class="glyphicon glyphicon-trash"></span><small>delete</small>' +
+            '<button class="delete-button btn btn-default" type="button" style="float: right" data-comment="' +
+            response.id +
+            '"><span class="glyphicon glyphicon-trash"></span><small>delete</small>' +
             '</button><p>' +
             response.author +
             ', <small>' +
             date + ' ' + time +
-            '</small></p></div><hr>').insertBefore(newCommentDiv)
+            '</small></p><hr></div>').insertBefore(newCommentDiv)
     });
 });
+
+$('#comments').on('click', '.delete-button',function () {
+// $('.delete-button').click(function () {
+    console.log("click", this);
+    var button = $(this);
+    var id = $(this).attr("data-comment");
+    var div = button.parent()
+    $.ajax({
+        url: '/comments/' + id,
+        type: 'DELETE',
+        success: function() {
+            div.remove();
+            }
+        })
+    });
