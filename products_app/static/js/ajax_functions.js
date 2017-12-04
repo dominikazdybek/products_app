@@ -99,10 +99,17 @@ $('#comment').click(function(event) {
         var date = parsedDate.getUTCDate() + '/' + (parsedDate.getMonth() + 1) + '/' + parsedDate.getFullYear();
         var time = parsedDate.getHours() + ':' + parsedDate.getMinutes();
         newCommentDiv = $('.new');
-        $('<div>' + response.comment +
-            '<button class="delete-button btn btn-default" type="button" style="float: right" data-comment="' +
+        $('<div>' +
+            '<div class="editing-comment">' +
+            response.comment +
+            '</div>' +
+            '<button class="delete-button btn btn-default custom" type="button" style="float: right" data-comment="' +
             response.id +
             '"><span class="glyphicon glyphicon-trash"></span><small>delete</small>' +
+            '</button>' +
+            '<button class="edit-button btn btn-default custom" type="button" style="float: right" data-comment="' +
+            response.id +
+            '"><span class="glyphicon glyphicon-edit"></span><small class="edit-button-text">edit</small>' +
             '</button><p>' +
             response.author +
             ', <small>' +
@@ -123,5 +130,30 @@ $('#comments').on('click', '.delete-button',function () {
         success: function() {
             div.remove();
             }
-        })
+        });
     });
+
+
+$('#comments').on("click", '.edit-button', function(){
+    // console.log("click", this.parent());
+    var button = $(this);
+    var currentTextElement = button.children('.edit-button-text');
+    var iconElement = currentTextElement.siblings('.glyphicon');
+    var id = $(this).attr("data-comment");
+    var commentElement =  $(this).siblings('.editing-comment')
+    if (currentTextElement.text() === "edit") {
+        currentTextElement.text('save');
+        iconElement.removeClass('glyphicon-edit').addClass('glyphicon-send');
+        commentElement.prop('contentEditable',true).addClass('rounded');
+    } else {
+        currentTextElement.text('edit');
+        iconElement.removeClass('glyphicon-send').addClass('glyphicon-edit');
+        commentElement.prop('contentEditable',false).removeClass('rounded');
+        var editedComment = commentElement.text();
+        $.ajax({
+            url: '/comments/' + id,
+            type: 'PUT',
+            data:editedComment,
+        });
+    }
+});

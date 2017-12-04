@@ -102,6 +102,7 @@ class ProductView(View):
         form = CommentForm()
         product = Product.objects.get(pk=my_id)
         like_dislike_user = LikeDislike.objects.filter(author=request.user)
+        comment_user = Comment.objects.filter(author=request.user)
         comments = Comment.objects.filter(product=product)
         user = request.user
         like_dislike = product.likedislike_set.filter(author=user).last()
@@ -152,4 +153,10 @@ class DeleteCommentView(View):
     def delete(self, request, comment_id):
         comment = Comment.objects.get(pk=comment_id)
         comment.delete()
+        return HttpResponse(status=204)
+
+    def put(self, request, comment_id):
+        comment = Comment.objects.get(pk=comment_id)
+        comment.content = request.body
+        comment.save()
         return HttpResponse(status=204)

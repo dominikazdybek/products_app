@@ -38,11 +38,11 @@
 }
 
 .description {
-  width: 90%;
-  color: #555;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-    border-color: #D17E75;
+    width: 90%;
+    color: #555;
+    border: 1px solid #D17E75;
+    border-radius: 4px;
+    /*border-color: #D17E75;*/
 }
 
 body {
@@ -54,6 +54,16 @@ a {
 }
 
 
-.delete {
-    float: right;
+/*.delete {*/
+    /*float: right;*/
+/*}*/
+
+
+.custom {
+    width: 78px !important;
+}
+
+.rounded {
+    border: 1px solid #D17E75;
+    border-radius: 5px;
 }

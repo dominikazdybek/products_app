@@ -31,12 +31,24 @@
                 <div class="row">
                     <div id="comments" class="col-sm-12">
                         {% for comment in comments %}
-                            <div>{{ comment.content }}
-                                <button class="delete-button btn btn-default" type="button" style="float: right"
-                                        data-comment="{{ comment.id }}">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    <small>delete</small>
-                                </button>
+                            <div>
+                                <div class="editing-comment">{{ comment.content }}</div>
+                                {% if user.is_authenticated and comment.author == user %}
+                                    <button class="delete-button btn btn-default custom" type="button"
+                                            style="float: right"
+                                            data-comment="{{ comment.id }}">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        <small>delete</small>
+                                    </button>
+                                {% endif %}
+                                {% if user.is_authenticated and comment.author == user %}
+                                    <button class="edit-button btn btn-default custom" type="button"
+                                            style="float: right"
+                                            data-comment="{{ comment.id }}">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                        <small class="edit-button-text">edit</small>
+                                    </button>
+                                {% endif %}
                                 <p> {{ comment.author }},
                                     <small>  {{ comment.date | date:"d/m/Y G:i" }}</small>
                                 </p>
