@@ -14,7 +14,6 @@ class LoginForm(Form):
     ))
 
 
-
 class RegisterForm(forms.Form):
     username = forms.CharField(label='Nazwa użytkownika', max_length=100,
                                widget=forms.TextInput(attrs={'class': 'form-control'}))

@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from products_app.views import (UserLoginView, RegisterView, LogoutView, MainView, LikeProduct, DislikeProduct,
-                                ProductView, ProductCommentView, CategoryView, DeleteCommentView)
+                                ProductView, ProductCommentView, CategoryView, DeleteCommentView,
+                                BestRatedView, FrequentlyCommentedView)
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -33,6 +34,9 @@ urlpatterns = [
     url(r'^product/(?P<my_id>(\d)+)/comments/$', ProductCommentView.as_view(), name='product_comment'),
     url(r'^category/(?P<name>([-A-Za-ząćęłńóśźżĄĘŁŃÓŚŹŻ])+)/', CategoryView.as_view(), name='category'),
     url(r'^comments/(?P<comment_id>(\d)+)$', DeleteCommentView.as_view(), name='delete_comment'),
+    url(r'^bestrated/$', BestRatedView.as_view(), name="best_rated"),
+    url(r'^frequentlycommented/$', FrequentlyCommentedView.as_view(), name="frequently_commennted"),
+
 ]
 
 if settings.DEBUG is True:

@@ -17,6 +17,10 @@ class Product(models.Model):
         return self.likedislike_set.filter(liked=False).count()
 
     @property
+    def quantity_of_comments(self):
+         return self.comment_set.count()
+
+    @property
     def likes(self):
             return self.likedislike_set.filter(liked=True)
 

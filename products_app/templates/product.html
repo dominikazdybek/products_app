@@ -34,7 +34,7 @@
                             <div>
                                 <div class="editing-comment">{{ comment.content }}</div>
                                 {% if user.is_authenticated and comment.author == user %}
-                                    <button class="delete-button btn btn-default custom" type="button"
+                                    <button class="delete-button btn btn-default btn-sm custom" type="button"
                                             style="float: right"
                                             data-comment="{{ comment.id }}">
                                         <span class="glyphicon glyphicon-trash"></span>
@@ -42,7 +42,7 @@
                                     </button>
                                 {% endif %}
                                 {% if user.is_authenticated and comment.author == user %}
-                                    <button class="edit-button btn btn-default custom" type="button"
+                                    <button class="edit-button btn btn-default btn-sm custom" type="button"
                                             style="float: right"
                                             data-comment="{{ comment.id }}">
                                         <span class="glyphicon glyphicon-edit"></span>

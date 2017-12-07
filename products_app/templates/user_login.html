@@ -1,24 +1,22 @@
-{#{% extends "base.html" %}#}
 <!doctype html>
 <html>
-    <head>
-        {% load static %}
-        <meta charset = "utf-8">
-        <title>
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>
         {% block title %}
-        Tytuł strony
+            Tytuł strony
         {% endblock %}
-        </title>
+    </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel='stylesheet' type='text/css' href='{% static "main.css" %}'>
-    </head>
-    <body>
-{#{% block content %}#}
-    <div class="my_form">
+</head>
+<body>
+<div class="my_form">
     <h1>Logowanie</h1>
 
     {% if blad %}
@@ -39,20 +37,15 @@
         <button type="submit" class="btn btn-primary" style="float: right">zaloguj</button>
         <br>
     </form>
-
-{#{% endblock %}#}
-
-{#{% block footer %}#}
     <br>
     <footer class="container-fluid text-center">
-      <p>
-        <a href="/logout">Wyloguj</a>
-        <a href="/user_login">Logowanie</a>
-        <a href="/register">Rejestracja</a>
-      </p>
+        <p>
+            <a href="/logout">Wyloguj</a>
+            <a href="/user_login">Logowanie</a>
+            <a href="/register">Rejestracja</a>
+        </p>
     </footer>
-{#{% endblock %}#}
-     </body>
-    <script src = "{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
-    <script src = "{% static 'js/ajax_functions.js' %}"></script>
+</body>
+<script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/ajax_functions.js' %}"></script>
 </html>

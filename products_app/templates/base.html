@@ -1,27 +1,27 @@
 <!doctype html>
 <html>
-    <head>
-        {% load static %}
-        <meta charset = "utf-8">
-        <title>
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>
         {% block title %}
-        Tytuł strony
+            Tytuł strony
         {% endblock %}
-        </title>
+    </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel='stylesheet' type='text/css' href='{% static "main.css" %}'>
-    </head>
-    <body>
-             <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href='/products'>Strona główna</a>
-            </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href='/products'>Strona główna</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar" data-hover="dropdown" data-animations="fadeIn">
             <ul class="nav navbar-nav">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     Kategorie<span class="caret"></span></a>
@@ -32,27 +32,29 @@
                         <li><a href="/category/t-shirt">T-shirty</a></li>
                     </ul>
                 </li>
+                <li><a href="/bestrated">Najlepiej oceniane</a></li>
+                <li><a href="/frequentlycommented">Najczęsciej komentowane</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a hred ="#"><span class="glyphicon glyphicon-user">&nbsp;
+                <li><a hred="#"><span class="glyphicon glyphicon-user">&nbsp;
                 </span>Zalogowany : {{ user.get_username }}</a></li>
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out">&nbsp;
                 </span>Wyloguj</a></li>
             </ul>
         </div>
-        </div>
-    </nav>
+    </div>
+</nav>
+<br><br><br><br>
+{% block content %}
+{% endblock %}
+{% block footer %}
     <br>
-             {% block content %}
-        {% endblock %}
-        {% block footer %}
-            <br>
-            <footer class="container-fluid text-center foot">
-                <p>© copyright by Dominika, 2017</p>
-            </footer>
-        {% endblock %}
-    </body>
-    <script src = "{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
-    <script src = "{% static 'js/ajax_functions.js' %}"></script>
+    <footer class="container-fluid text-center foot">
+        <p>© copyright by Dominika, 2017</p>
+    </footer>
+{% endblock %}
+</body>
+<script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/ajax_functions.js' %}"></script>
 </html>
 

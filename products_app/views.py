@@ -6,15 +6,13 @@ from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from .models import Product, LikeDislike, Comment
 from django.shortcuts import render_to_response, render
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core import serializers
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
 
 
 class UserLoginView(View):
-
     def get(self, request):
         form = LoginForm()
         return render(request, "user_login.html", {"form": form})
@@ -33,7 +31,6 @@ class UserLoginView(View):
 
 
 class LogoutView(View):
-
     def get(self, request):
         logout(request)
         return HttpResponseRedirect("/user_login")
@@ -45,7 +42,7 @@ class RegisterView(FormView):
     success_url = "/user_login"
 
     def form_valid(self, form):
-        #dodawanie
+        # dodawanie
         u = User()
         u.username = form.cleaned_data['username']
         u.first_name = form.cleaned_data['first_name']
@@ -58,6 +55,8 @@ class RegisterView(FormView):
 
 
 class MainView(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
 
     def get(self, request):
         products = Product.objects.all()
@@ -70,11 +69,13 @@ class MainView(LoginRequiredMixin, View):
                 if like_dislike is not None:
                     product.like_dislike_user = like_dislike.liked
 
-        return render_to_response('main.html', {'products': products,
-                                                'user': user})
+            return render_to_response('main.html', {'products': products,
+                                                    'user': user})
 
 
-class LikeProduct(View):
+class LikeProduct(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
 
     def post(self, request, my_id):
         p = Product.objects.get(pk=my_id)
@@ -85,7 +86,9 @@ class LikeProduct(View):
         return HttpResponse(created)
 
 
-class DislikeProduct(View):
+class DislikeProduct(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
 
     def post(self, request, my_id):
         p = Product.objects.get(pk=my_id)
@@ -95,7 +98,9 @@ class DislikeProduct(View):
         return HttpResponse(created)
 
 
-class ProductView(View):
+class ProductView(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
 
     def get(self, request, my_id):
         user = request.user
@@ -115,7 +120,9 @@ class ProductView(View):
                                                    "form": form})
 
 
-class ProductCommentView(View):
+class ProductCommentView(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
 
     def post(self, request, my_id):
         p = Product.objects.get(pk=my_id)
@@ -132,11 +139,11 @@ class ProductCommentView(View):
             })
 
 
+class CategoryView(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
 
-
-class CategoryView(View):
-
-    def get(self,request,  name):
+    def get(self, request, name):
         products = Product.objects.filter(name=name)
         user = request.user
         like_dislike_user = LikeDislike.objects.filter(author=request.user)
@@ -145,10 +152,12 @@ class CategoryView(View):
             if like_dislike is not None:
                 product.like_dislike_user = like_dislike.liked
         return render_to_response('category.html', {'products': products,
-                                                    'user':user})
+                                                    'user': user})
 
 
-class DeleteCommentView(View):
+class DeleteCommentView(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
 
     def delete(self, request, comment_id):
         comment = Comment.objects.get(pk=comment_id)
@@ -160,3 +169,37 @@ class DeleteCommentView(View):
         comment.content = request.body
         comment.save()
         return HttpResponse(status=204)
+
+
+class BestRatedView(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
+
+    def get(self, request):
+        user = request.user
+        products_values = Product.objects.all()
+        products = [p for p in products_values]
+        products.sort(
+            key=lambda product:
+            product.quantity_of_likes - product.quantity_of_dislikes,
+            reverse=True)
+        return render_to_response(
+            'bestrated.html', {'user': user,
+                               'products': products[:4]})
+
+
+class FrequentlyCommentedView(LoginRequiredMixin, View):
+    login_url = "/user_login"
+    raise_exception = False
+
+    def get(self, request):
+        user = request.user
+        products_values = Product.objects.all()
+        products = [p for p in products_values]
+        products.sort(
+            key=lambda product:
+            product.quantity_of_comments,
+            reverse=True)
+        return render_to_response(
+            'frequentlycommented.html', {'user': user,
+                                         'products': products[:3]})
