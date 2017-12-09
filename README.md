@@ -9,7 +9,7 @@ Application functionalities is:
 * adding a comment
 * editing/deleting own comment
 * browsing products by category
-* displaying the best-rated products
+* displaying the best rated products
 * displaying the most frequently commented products
 
 ## Stack
@@ -18,7 +18,7 @@ Application functionalities is:
 * Django
 * MySQL
 * REST
-* jQuery stack
+* jQuery
 * HTML + CSS (Bootstrap)
 
 ## How to build the project locally
@@ -63,3 +63,84 @@ Run server:
 
 
 ## REST API Documentation
+
+## Comment Product
+
+### URL
+
+`/product/:id/comments`
+
+### Method
+
+`POST`
+
+### URL Params
+
+`id=[integer]`
+
+### Data params
+
+``` 
+    {
+	"content": [string],
+	"date": [datetime=now],
+	"author": [string],
+	"product": [integer]
+    }
+```
+
+### Success response
+
+* **Code:** 200 <br />
+* **Content:** 
+```
+    {
+	"content": [string],
+	"date": [string],
+	"author": [string],
+	"product": [string]
+    }
+```
+
+## Delete Comment
+
+### URL
+
+`/comments/:comment_id`
+
+### Method
+
+`DELETE | PUT`
+
+### URL Params
+
+`comment_id=[integer]`
+
+### Data params
+
+``` 
+    {
+	"content": [string],
+	"date": [datetime=now],
+	"author": [string],
+	"product": [integer]
+    }
+``` 
+
+### Success Response
+
+* **DELETE**
+  * **Code:** 204 <br />
+  * **Content:** ` `
+
+* **PUT**
+  * **Code:** 204 <br />
+  * **Content:** 
+```
+    {
+	"content": [string],
+	"date": [string],
+	"author": [string],
+	"product": [string]
+    }
+```
